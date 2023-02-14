@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const App = () => {
     const [init, setInit] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userObj, setUserObj] = useState(null);
 
     //파이어베이스가 실행된 후 유저 정보를 가져올 수 있도록 설정
     useEffect(() => {
@@ -14,6 +15,7 @@ const App = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setIsLoggedIn(true);
+                setUserObj(user);
             } else {
                 setIsLoggedIn(false);
             }
@@ -23,7 +25,7 @@ const App = () => {
 
     return (
         <>
-            {init ? <AppRouter isLoggedIn={isLoggedIn} /> : 'Initializing...'}
+            {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : 'Initializing...'}
             <footer>&copy;{new Date().getFullYear()} Nwitter</footer>
         </>
     );
